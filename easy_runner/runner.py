@@ -10,7 +10,7 @@ import sys
 import threading
 import time
 from collections import defaultdict
-from typing import List
+from typing import List, Optional
 
 import psutil
 from prettytable import PrettyTable
@@ -107,7 +107,10 @@ class EasyRunner:
         self.refresh_time = refresh_time
 
     def start(
-        self, instructions: List[str], gpus: List[int] = [0], max_parallel: int = 1
+        self,
+        instructions: List[str],
+        gpus: Optional[List[int]] = None,
+        max_parallel: int = 1
     ):
         """
         Starts running the experiments.
@@ -187,14 +190,14 @@ class EasyRunner:
     def run_command_thread(
         self,
         instructions: List[str],
-        gpus: List[int] = [0],
+        gpus: Optional[List[int]] = None,
         max_parallel: int = 1
     ) -> None:
 
         self.num_exp = len(instructions)
         self.processes = {}
         exp_names = [f"exp_{i}" for i in range(self.num_exp)]
-        num_gpu = len(gpus)
+        num_gpu = len(gpus) if gpus is not None else 1
 
         for i, ins in enumerate(instructions):
             while self.running_experiments >= max_parallel and self.main_process_active:
@@ -206,7 +209,8 @@ class EasyRunner:
 
             print(f"\033[92mRunning experiment {i}\033[0m: {ins}")
             redirect = f"> {self.log_root}/{exp_names[i]}_gpu{gpus[i % num_gpu]}.out"
-            command = f"CUDA_VISIBLE_DEVICES={gpus[i % num_gpu]} {instructions[i]} {redirect}"
+            cuda_prefix = f"CUDA_VISIBLE_DEVICES = {gpus[i % num_gpu]}" if gpus is not None else ""
+            command = cuda_prefix + f"{instructions[i]} {redirect}"
             p = subprocess.Popen(command, shell=True, preexec_fn=os.setsid)
             start_time = datetime.datetime.now()
             # a tuple to store the status of the process, the last two represent
