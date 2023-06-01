@@ -11,8 +11,9 @@ if __name__ == "__main__":
         "TaskA",
         "TaskB",
     ]
+    config = [0.1]
 
     template = "python {} {} {} {}"
 
-    train_instructions = runner.compose(template, [script_name, seed, task])
+    train_instructions = runner.compose(template, [script_name, seed, task, config])
     runner.start(train_instructions, max_parallel=4)
