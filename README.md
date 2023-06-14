@@ -1,5 +1,5 @@
 <div align="center">
-  <h1>EasyRunner</h1>
+  <h2>EasyRunner: Smoother Parallel Experiments</h2>
 </div>
 <div align="center">
 
@@ -18,11 +18,12 @@
 
 ---
 
-EasyRunner is a lightweight tool for managing and executing multiple parallel experiments. It simplifies the process of running multiple experiments with different configurations or hyperparameters, while monitoring system resources.
+EasyRunner is a lightweight tool for managing and executing multiple parallel experiments with minimum dependencies. It simplifies the process of running multiple experiments with different configurations or hyperparameters, while monitoring system resources.
 
 ## Features
 
 - Run multiple experiments in parallel
+- Simple dependencies. It only depends on `prettytable` and `psutil` library. So you can basically use this for any platforms.
 - Monitor system resources (CPU and memory usage) during experiments
 - Early termination of experiments by inputting the experiment number
 - Colorized display of experiment status and resource usage
@@ -30,17 +31,17 @@ EasyRunner is a lightweight tool for managing and executing multiple parallel ex
 
 ## Installation
 
-### Install from PyPI
+The simpliest way is to install via [PyPI](https://pypi.org/project/easy-runner).
 
 ```
 pip install easy_runner
 ```
 
-### Install from source
-
-To install from source, simply download or clone this repository and then:
+Alternatively, you can also install from source, simply download or clone this repository and then:
 
 ```
+git clone https://github.com/liuzuxin/easy-runner.git
+cd easy-runner
 pip install -e .
 ```
 
