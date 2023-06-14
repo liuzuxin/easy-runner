@@ -1,4 +1,22 @@
-# EasyRunner
+<div align="center">
+  <h1>EasyRunner</h1>
+</div>
+<div align="center">
+
+  <a>![Python 3.8+](https://img.shields.io/badge/Python-3.6%2B-brightgreen.svg)</a>
+  [![License](https://img.shields.io/badge/License-MIT-blue.svg)](#license)
+  [![PyPI](https://img.shields.io/pypi/v/easy-runner?logo=pypi)](https://pypi.org/project/easy-runner)
+  <!-- [![Downloads](https://static.pepy.tech/personalized-badge/easy-runner?period=total&left_color=grey&right_color=blue&left_text=downloads)](https://pepy.tech/project/easy-runner) -->
+  <!-- [![GitHub Repo Stars](https://img.shields.io/github/stars/liuzuxin/dsrl?color=brightgreen&logo=github)](https://github.com/liuzuxin/dsrl/stargazers) -->
+  <!-- [![Documentation Status](https://img.shields.io/readthedocs/fsrl?logo=readthedocs)](https://fsrl.readthedocs.io) -->
+  <!-- [![CodeCov](https://codecov.io/github/liuzuxin/fsrl/branch/main/graph/badge.svg?token=BU27LTW9F3)](https://codecov.io/github/liuzuxin/fsrl)
+  [![Tests](https://github.com/liuzuxin/fsrl/actions/workflows/test.yml/badge.svg)](https://github.com/liuzuxin/fsrl/actions/workflows/test.yml) -->
+  <!-- [![CodeCov](https://img.shields.io/codecov/c/github/liuzuxin/fsrl/main?logo=codecov)](https://app.codecov.io/gh/liuzuxin/fsrl) -->
+  <!-- [![tests](https://img.shields.io/github/actions/workflow/status/liuzuxin/fsrl/test.yml?label=tests&logo=github)](https://github.com/liuzuxin/fsrl/tree/HEAD/tests) -->
+  
+</div>
+
+---
 
 EasyRunner is a lightweight tool for managing and executing multiple parallel experiments. It simplifies the process of running multiple experiments with different configurations or hyperparameters, while monitoring system resources.
 
@@ -12,16 +30,28 @@ EasyRunner is a lightweight tool for managing and executing multiple parallel ex
 
 ## Installation
 
-To use EasyRunner, simply download or clone this repository to your local machine.
+### Install from PyPI
+
+```
+pip install easy_runner
+```
+
+### Install from source
+
+To install from source, simply download or clone this repository and then:
+
+```
+pip install -e .
+```
 
 ## Usage
 
-1. Import the `EasyRunner` class from the `easy_runner.py` file.
-2. Initialize an `EasyRunner` object with the required parameters.
-3. Use the `start` method to run experiments.
-4. Optionally, use the `compose` method to generate a list of instructions from a template and arguments.
+1. Initialize an `EasyRunner` object with the required parameters.
+2. Specificy a list of commandline instructions to run.
+3. Use the `start` method to run experiments. You can specify a list of GPU IDs for running experiments (or `None` by default).
+3. Optionally, use the `compose` method to generate a list of instructions from a template and arguments.
 
-Example:
+A simple example for running a list of instructions (2 parallel) on cuda 0, 1:
 
 ```python
 from easy_runner import EasyRunner
@@ -39,10 +69,10 @@ instructions = [
 ]
 
 # Run experiments
-runner.start(instructions, gpus=[0], max_parallel=2)
+runner.start(instructions, gpus=[0, 1], max_parallel=2)
 ```
 
-Here's an example of how to use the `EasyRunner`:
+Anoter example of how to use the `compose` feature to perform grid search:
 
 ```python
 from easy_runner import EasyRunner
@@ -64,13 +94,24 @@ instructions = runner.compose(template, [agents, seeds, tasks])
 runner.start(instructions, max_parallel=4)
 ```
 
+You can try the example scripts in the `examples` folder:
+```bash
+cd examples
+python test_easy_runner.py
+```
+
+Demo video:
+<div align="center">
+  <img width="600px" height="auto" src="https://github.com/liuzuxin/easy-runner/raw/main/examples/demo.gif">
+</div>
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ## Contributing
 
-We welcome contributions to the Experiment Grid Tool. Please open an issue or submit a pull request on the GitHub repository.
-
+There are still a lot of improvements could be done for this tool.
+We welcome any contributions to this project. Please open an issue or submit a pull request on the GitHub repository.
 
 Feel free to customize this template according to your specific requirements or add any additional information you think would be helpful for users.

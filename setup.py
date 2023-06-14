@@ -15,31 +15,7 @@ def get_install_requires() -> str:
     return [
         "prettytable~=3.7.0",
         "psutil~=5.9.5",
-        "setuptools",
     ]
-
-
-def get_extras_require() -> str:
-    req = {
-        "dev": [
-            "sphinx==6.2.1",
-            "sphinx_rtd_theme==1.2.0",
-            "jinja2==3.0.3",  # temporary fix
-            "sphinxcontrib-bibtex==2.5.0",
-            "flake8",
-            "flake8-bugbear",
-            "yapf",
-            "isort",
-            "pytest",
-            "pytest-cov",
-            "networkx",
-            "mypy",
-            "pydocstyle",
-            "doc8==0.11.2",
-            "pre-commit",
-        ],
-    }
-    return req
 
 
 setup(
@@ -77,5 +53,4 @@ setup(
         exclude=["tests", "tests.*", "examples", "examples.*", "docs", "docs.*"]
     ),
     install_requires=get_install_requires(),
-    extras_require=get_extras_require(),
 )

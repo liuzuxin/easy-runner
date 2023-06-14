@@ -208,8 +208,12 @@ class EasyRunner:
                 break
 
             print(f"\033[92mRunning experiment {i}\033[0m: {ins}")
-            redirect = f"> {self.log_root}/{exp_names[i]}_gpu{gpus[i % num_gpu]}.out"
-            cuda_prefix = f"CUDA_VISIBLE_DEVICES = {gpus[i % num_gpu]}" if gpus is not None else ""
+            if gpus is None:
+                redirect = f"> {self.log_root}/{exp_names[i]}_cpu.out"
+                cuda_prefix = ""
+            else:
+                redirect = f"> {self.log_root}/{exp_names[i]}_gpu{gpus[i % num_gpu]}.out"
+                cuda_prefix = f"CUDA_VISIBLE_DEVICES = {gpus[i % num_gpu]}"
             command = cuda_prefix + f"{instructions[i]} {redirect}"
             p = subprocess.Popen(command, shell=True, preexec_fn=os.setsid)
             start_time = datetime.datetime.now()
