@@ -16,8 +16,6 @@
   
 </div>
 
----
-
 EasyRunner is a lightweight tool for managing and executing multiple parallel experiments with minimum dependencies. It simplifies the process of running multiple experiments with different configurations or hyperparameters, while monitoring system resources.
 
 ## Features
