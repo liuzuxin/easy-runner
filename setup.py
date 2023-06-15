@@ -34,9 +34,6 @@ setup(
         # How mature is this project? Common values are 3 - Alpha 4 - Beta 5 -
         #   Production/Stable
         "Development Status :: 3 - Alpha",
-        # Indicate who your project is intended for
-        "Intended Audience :: Science/Research",
-        "Topic :: Scientific/Engineering :: Artificial Intelligence",
         "Topic :: Software Development :: Libraries :: Python Modules",
         # Pick your license as you wish (should match "license" above)
         "License :: OSI Approved :: MIT License",
@@ -48,7 +45,7 @@ setup(
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
     ],
-    keywords="reinforcement learning platform pytorch",
+    keywords="lightweight tool for parallel commandline experiment management",
     packages=find_packages(
         exclude=["tests", "tests.*", "examples", "examples.*", "docs", "docs.*"]
     ),
