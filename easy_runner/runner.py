@@ -109,6 +109,7 @@ class EasyRunner:
     def start(
         self,
         instructions: List[str],
+        exp_names: Optional[List[str]] = None,
         gpus: Optional[List[int]] = None,
         max_parallel: int = 1
     ):
@@ -133,7 +134,7 @@ class EasyRunner:
         threads = [
             threading.Thread(
                 target=self.run_command_thread,
-                args=(instructions, gpus, max_parallel),
+                args=(instructions, exp_names, gpus, max_parallel),
                 daemon=True
             ),
             threading.Thread(target=self.display_thread, daemon=True),
@@ -190,13 +191,14 @@ class EasyRunner:
     def run_command_thread(
         self,
         instructions: List[str],
+        exp_names: Optional[List[str]] = None,
         gpus: Optional[List[int]] = None,
         max_parallel: int = 1
     ) -> None:
 
         self.num_exp = len(instructions)
         self.processes = {}
-        exp_names = [f"exp_{i}" for i in range(self.num_exp)]
+        exp_names = exp_names if exp_names is not None else [f"exp_{i}" for i in range(self.num_exp)]
         num_gpu = len(gpus) if gpus is not None else 1
 
         for i, ins in enumerate(instructions):
@@ -213,7 +215,7 @@ class EasyRunner:
                 cuda_prefix = ""
             else:
                 redirect = f"> {self.log_root}/{exp_names[i]}_gpu{gpus[i % num_gpu]}.out"
-                cuda_prefix = f"CUDA_VISIBLE_DEVICES = {gpus[i % num_gpu]}"
+                cuda_prefix = f"CUDA_VISIBLE_DEVICES={gpus[i % num_gpu]} "
             command = cuda_prefix + f"{instructions[i]} {redirect}"
             p = subprocess.Popen(command, shell=True, preexec_fn=os.setsid)
             start_time = datetime.datetime.now()
@@ -330,6 +332,9 @@ class EasyRunner:
                 status = "RUNNING"
                 running_time = current_time - start_time
                 self.process_running_time[exp_num] = self.format_time(running_time)
+            
+            if len(command) > 10:
+                command = command[:10] + "..."
 
             table.add_row(
                 [
@@ -356,6 +361,9 @@ class EasyRunner:
             running_time = current_time - start_time
             self.process_running_time[exp_num] = self.format_time(running_time)
 
+            if len(command) > 10:
+                command = command[:10] + "..."
+            
             table.add_row(
                 [
                     colorize(f"Exp {exp_num}", "green"),
